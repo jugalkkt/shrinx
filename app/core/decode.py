@@ -8,4 +8,4 @@ def decode(n: str):
     acc = 0
     for i in n:
         acc = acc*62 + int(index(i))
-    return acc
+    return str(acc)

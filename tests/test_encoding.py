@@ -1,3 +1,5 @@
 from app.core.decode import decode
 from app.core.encode import encode
-print(decode(encode("3844")))
+
+def test_roundtrip():
+    assert decode(encode("3844")) == "3844"

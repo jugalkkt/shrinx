@@ -15,4 +15,7 @@ dependencies = [
     "uvicorn[standard]>=0.34",
 ]
 
+[tool.pytest.ini_options]
+pythonpath = ["."]
+
 

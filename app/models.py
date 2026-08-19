@@ -1,5 +1,7 @@
-from beanie import Document
+from beanie import Document, Indexed
 from datetime import datetime
+from pydantic import HttpUrl
+
 
 
 class User(Document):
@@ -7,7 +9,7 @@ class User(Document):
     email: str
 
 class Link(Document):
-    short_code: str
+    short_code: Indexed(str, unique = True)
     destination: HttpUrl
     user: Link[User]
     created_at: datetime

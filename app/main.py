@@ -1,7 +1,6 @@
 from fastapi import FastAPI
 from fastapi.responses import PlainTextResponse
 from contextlib import asynccontextmanager
-from pydantic import HttpUrl
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):

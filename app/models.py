@@ -11,7 +11,7 @@ class User(Document):
 class Link(Document):
     short_code: Indexed(str, unique = True)
     destination: HttpUrl
-    user: Link[User]
+    user: Link[User] # foreign key
     created_at: datetime
 
 # TODO: private/internal IP addresses not yet rejected — see part 12 item 4

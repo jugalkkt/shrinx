@@ -1,1 +1,15 @@
-<h1>Hello from a template</h1>
+{% extends "base.html" %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<h1>Your links</h1>
+
+<ul>
+{% for link in links %}
+    <li>{{ link.short_code }} → {{ link.destination }}</li>
+{% else %}
+    <li>No links yet. Paste one above to get started.</li>
+{% endfor %}
+</ul>
+{% endblock %}

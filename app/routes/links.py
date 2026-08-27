@@ -1,12 +1,17 @@
-from fastapi import APIRouter, status
+from fastapi import APIRouter, status, Request
 from app.models import Link, User, clientRequest
-from fastapi.responses import RedirectResponse, JSONResponse
+from fastapi.responses import RedirectResponse, JSONResponse, HTMLResponse
 from app.core.shortcode import generate_code
 from datetime import date, datetime
 from pymongo.errors import DuplicateKeyError
+from app.core.template import templates
 # other imports you'll need
 
 router = APIRouter()
+
+@router.get("/", response_class=HTMLResponse)
+async def homepage(request: Request):
+    return templates.TemplateResponse(request, "index.html")
 
 @router.get("/{code}")
 async def follow(code: str):

@@ -13,6 +13,8 @@ router = APIRouter()
 
 @router.get("/", response_class=HTMLResponse)
 async def homepage(request: Request, user: User = Depends(current_user_optional)):
+    if user is None:
+        return RedirectResponse("/signup", status_code=303)
     links = await Link.find(Link.user.id == user.id).to_list()
     return templates.TemplateResponse(request, "index.html",{"links":links})
 

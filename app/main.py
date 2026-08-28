@@ -8,6 +8,8 @@ from pymongo import AsyncMongoClient
 from beanie import init_beanie
 from datetime import datetime
 from app.routes.links import router
+from app.routes.auth import router
+
 
 
 @asynccontextmanager
@@ -20,10 +22,10 @@ async def lifespan(app: FastAPI):
     await init_beanie(database=client["shrinx_db"], document_models=[Link, User]) 
 
     # make a placeholder till i implement proper auth
-    existing = await User.find_one(User.email == "akshay1@gmail.com")
-    if not existing:
-        user = User(name="Akshay Varrier", email="akshay1@gmail.com")
-        await user.insert()
+    # existing = await User.find_one(User.email == "akshay1@gmail.com")
+    # if not existing:
+    #     user = User(name="Akshay Varrier", email="akshay1@gmail.com")
+    #     await user.insert()
 
 
     yield  # <-- the app runs here, handling requests, until shutdown

@@ -44,7 +44,7 @@ async def create_link_form(destination: HttpUrl = Form(...)):
 async def create_link(request: clientRequest):
     # your logic here
     # temporary placefolder user
-    user = await User.find_one(User.email=="akshay1@gmail.com")
+    # user = await User.find_one(User.email=="akshay1@gmail.com")
     max_retry = 5
     for i in range(max_retry):
         try:

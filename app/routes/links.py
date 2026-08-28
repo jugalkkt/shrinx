@@ -1,4 +1,4 @@
-from app.core.auth import current_user_required
+from app.core.auth import current_user_required, current_user_optional
 from fastapi import APIRouter, status, Request, Form, Depends
 from app.models import Link, User, clientRequest
 from fastapi.responses import RedirectResponse, JSONResponse, HTMLResponse
@@ -12,7 +12,7 @@ from pydantic import HttpUrl
 router = APIRouter()
 
 @router.get("/", response_class=HTMLResponse)
-async def homepage(request: Request, user: User = Depends(current_user_required)):
+async def homepage(request: Request, user: User = Depends(current_user_optional)):
     links = await Link.find(Link.user.id == user.id).to_list()
     return templates.TemplateResponse(request, "index.html",{"links":links})
 

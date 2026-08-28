@@ -1,4 +1,5 @@
-from fastapi import APIRouter, status, Request, Form
+from app.core.auth import current_user_required
+from fastapi import APIRouter, status, Request, Form, Depends
 from app.models import Link, User, clientRequest
 from fastapi.responses import RedirectResponse, JSONResponse, HTMLResponse
 from app.core.shortcode import generate_code, RESERVED_CODES
@@ -11,16 +12,14 @@ from pydantic import HttpUrl
 router = APIRouter()
 
 @router.get("/", response_class=HTMLResponse)
-async def homepage(request: Request):
-    user = await User.find_one(User.email=='akshay1@gmail.com')
+async def homepage(request: Request, user: User = Depends(current_user_required)):
     links = await Link.find(Link.user.id == user.id).to_list()
     return templates.TemplateResponse(request, "index.html",{"links":links})
 
 # actual create_link
 @router.post("/links/new")
-async def create_link_form(destination: HttpUrl = Form(...)):
+async def create_link_form(destination: HttpUrl = Form(...),user:User=Depends(current_user_required)):
     # temporary placefolder user
-    user = await User.find_one(User.email=="akshay1@gmail.com")
     max_retry = 5
     for i in range(max_retry):
         try:

@@ -1,4 +1,4 @@
-from app.core import shortcode
+from app.core import auth, shortcode
 from fastapi import FastAPI
 from fastapi.responses import PlainTextResponse
 from contextlib import asynccontextmanager
@@ -7,8 +7,8 @@ from app.models import Link, User
 from pymongo import AsyncMongoClient
 from beanie import init_beanie
 from datetime import datetime
-from app.routes.links import router
-from app.routes.auth import router
+from app.routes.links import router as links_router
+from app.routes.auth import router as auth_router
 
 
 
@@ -34,6 +34,8 @@ async def lifespan(app: FastAPI):
     print("shutting down")
 
 app = FastAPI(lifespan=lifespan)
-app.include_router(router)
+app.include_router(links_router)
+app.include_router(auth_router)
+
 
 

@@ -11,11 +11,43 @@ readme = "README.md"
 requires-python = ">=3.11"
 
 dependencies = [
-    "fastapi>=0.115",
-    "uvicorn[standard]>=0.34",
+    "annotated-doc==0.0.5",
+    "annotated-types==0.8.0",
+    "anyio==4.14.2",
+    "bcrypt==5.0.0",
+    "beanie==2.2.0",
+    "click==8.4.2",
+    "dnspython==2.8.0",
+    "email-validator==2.3.0",
+    "fastapi==0.141.1",
+    "h11==0.16.0",
+    "idna==3.18",
+    "iniconfig==2.3.0",
+    "jinja2==3.1.6",
+    "lazy-model==0.4.0",
+    "markupsafe==3.0.3",
+    "packaging==26.3",
+    "pluggy==1.6.0",
+    "pydantic==2.13.4",
+    "pydantic-core==2.46.4",
+    "pydantic-settings==2.15.0",
+    "pygments==2.21.0",
+    "pyjwt==2.13.0",
+    "pymongo==4.17.0",
+    "pytest==9.1.1",
+    "python-dotenv==1.2.3",
+    "python-multipart==0.0.32",
+    "starlette==1.6.0",
+    "typing-extensions==4.16.0",
+    "typing-inspection==0.4.4",
+    "uvicorn[standard]==0.52.3",
 ]
 
 [tool.pytest.ini_options]
 pythonpath = ["."]
+
+[tool.uv]
+package = false
+
 
 

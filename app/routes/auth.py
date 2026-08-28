@@ -24,7 +24,7 @@ async def signup(request: clientSignupRequest):
     return RedirectResponse("/login", status_code=303)
 
 @router.get("/signup", response_class=HTMLResponse)
-async def sihnup_homepage(request: Request):
+async def signup_homepage(request: Request):
     return templates.TemplateResponse(request, "signup.html")
 
 @router.get("/login", response_class=HTMLResponse)

@@ -31,11 +31,12 @@ async def lifespan(app: FastAPI):
     yield  # <-- the app runs here, handling requests, until shutdown
 
     # ---- this part runs once, at shutdown ----
+    await client.close()
     print("shutting down")
 
 app = FastAPI(lifespan=lifespan)
-app.include_router(links_router)
 app.include_router(auth_router)
+app.include_router(links_router)
 
 
 

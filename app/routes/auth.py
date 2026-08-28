@@ -52,3 +52,9 @@ async def login_form(email: str = Form(...), password: str = Form(...)):
     response.set_cookie("session", token, httponly=True, samesite="lax", max_age=7*24*60*60)
     return response
 
+@router.get("/logout")
+async def logout():
+    response = RedirectResponse("/login", status_code=303)
+    response.delete_cookie("session")
+    return response
+

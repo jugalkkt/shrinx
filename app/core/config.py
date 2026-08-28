@@ -6,6 +6,7 @@ class Settings(BaseSettings):
     MONGODB_URI : str
     atlas_username : str
     atlas_password : str
+    JWT_SECRET: str
 
 
 settings = Settings()

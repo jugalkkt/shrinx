@@ -7,7 +7,7 @@ def create_token(user_id: str) -> str:
         "sub": user_id,
         "exp": datetime.now(timezone.utc) + timedelta(days=7),
     }
-    return jwt.encode(payload, settings.jwt_secret, algorithm="HS256")
+    return jwt.encode(payload, settings.JWT_SECRET, algorithm="HS256")
 
 def decode_token(token: str) -> dict:
-    return jwt.decode(token, settings.jwt_secret, algorithms=["HS256"])
+    return jwt.decode(token, settings.JWT_SECRET, algorithms=["HS256"])

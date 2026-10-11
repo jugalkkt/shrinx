@@ -16,7 +16,7 @@
 
 <ul>
 {% for link in links %}
-    <li>{{ link.short_code }} → {{ link.destination }}</li>
+    <li>{{ link.short_code }} → {{ link.destination }} ({{ counts.get(link.id, 0) }} clicks)</li>
 {% else %}
     <li>No links yet. Paste one above to get started.</li>
 {% endfor %}

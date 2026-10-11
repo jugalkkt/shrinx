@@ -3,7 +3,7 @@ from fastapi import FastAPI
 from fastapi.responses import PlainTextResponse
 from contextlib import asynccontextmanager
 from app.core.config import settings
-from app.models import Link, User
+from app.models import Link, User, Click
 from pymongo import AsyncMongoClient
 from beanie import init_beanie
 from datetime import datetime
@@ -19,7 +19,7 @@ async def lifespan(app: FastAPI):
     # Create Async PyMongo client
     client = AsyncMongoClient(settings.MONGODB_URI)
     #Init beanie with the Product document class
-    await init_beanie(database=client["shrinx_db"], document_models=[Link, User]) 
+    await init_beanie(database=client["shrinx_db"], document_models=[Link, User, Click]) 
 
     # make a placeholder till i implement proper auth
     # existing = await User.find_one(User.email == "akshay1@gmail.com")

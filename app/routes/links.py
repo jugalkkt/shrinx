@@ -1,6 +1,6 @@
 from app.core.auth import current_user_required, current_user_optional
-from fastapi import APIRouter, status, Request, Form, Depends
-from app.models import Link, User, clientRequest
+from fastapi import APIRouter, status, Request, Form, Depends, BackgroundTasks
+from app.models import Link, User, Click, clientRequest
 from fastapi.responses import RedirectResponse, JSONResponse, HTMLResponse
 from app.core.shortcode import generate_code, RESERVED_CODES
 from datetime import date, datetime
@@ -16,7 +16,14 @@ async def homepage(request: Request, user: User = Depends(current_user_optional)
     if user is None:
         return RedirectResponse("/signup", status_code=303)
     links = await Link.find(Link.user.id == user.id).to_list()
-    return templates.TemplateResponse(request, "index.html",{"links":links})
+    counts = {}
+    if links:
+        rows = await Click.aggregate([
+            {"$match": {"link_id": {"$in": [l.id for l in links]}}},
+            {"$group": {"_id": "$link_id", "count": {"$sum": 1}}},
+        ]).to_list()
+        counts = {row["_id"]: row["count"] for row in rows}
+    return templates.TemplateResponse(request, "index.html",{"links":links, "counts":counts})
 
 # actual create_link
 @router.post("/links/new")
@@ -68,12 +75,19 @@ async def create_link(request: clientRequest):
         content={"message": "Server error"}
     )
 
+async def record_click(link_id):
+    try:
+        await Click(link_id=link_id, clicked_at=datetime.now()).insert()
+    except Exception as e:
+        print(f'failed to record click: {e}')
+
 @router.get("/{code}")
-async def follow(code: str):
+async def follow(code: str, background_tasks: BackgroundTasks):
     # your logic here
     link1 = await Link.find_one(Link.short_code == code)
     if not link1:
         return JSONResponse(status_code=status.HTTP_404_NOT_FOUND , content="404 not found!")
+    background_tasks.add_task(record_click, link1.id)
     return RedirectResponse(link1.destination, status_code=302)
 
     

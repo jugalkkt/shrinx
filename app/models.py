@@ -1,5 +1,5 @@
 from enum import unique
-from beanie import Document, Indexed, Link
+from beanie import Document, Indexed, Link, PydanticObjectId
 from datetime import datetime
 from pydantic import HttpUrl, BaseModel, EmailStr
 
@@ -13,6 +13,10 @@ class Link(Document):
     destination: HttpUrl
     user: Link[User] # foreign key
     created_at: datetime
+
+class Click(Document):
+    link_id: Indexed(PydanticObjectId)
+    clicked_at: datetime
 
 # TODO: private/internal IP addresses not yet rejected — see part 12 item 4
 class clientRequest(BaseModel):

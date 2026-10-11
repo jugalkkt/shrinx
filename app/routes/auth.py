@@ -12,7 +12,7 @@ from app.core.hash import verify_password
 
 router = APIRouter()
 
-@router.post("/signup")
+@router.post("/signup") # this route takes json
 async def signup(request: clientSignupRequest):
     # your logic here
     hashed_password = await asyncio.to_thread(hash_password, request.password)
@@ -31,7 +31,7 @@ async def signup_homepage(request: Request):
 async def login_homepage(request: Request):
     return templates.TemplateResponse(request, "login.html")
 
-@router.post("/signup/new")
+@router.post("/signup/new") # this route takes form
 async def signup_form(name: str = Form(...), email: str = Form(...), password: str = Form(...)):
     # your logic here
     hashed_password = await asyncio.to_thread(hash_password, password)
